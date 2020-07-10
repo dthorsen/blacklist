@@ -7,7 +7,7 @@ name: update
 on:
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '15 7 * * *'
+    - cron:  '10 * * * *'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -24,7 +24,12 @@ jobs:
       with:
         go-version: '1.14.4'
       env:
-        GIT_TOKEN: ${{ secrets.GIT_TOKEN }}  
+        GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+        GIT_ASKPASS: './.git-askpass'
     - run: |
         go run main.go
+        git config credential.https://github.com.username dthorsen-bot
+        git add blocklist.txt
+        git commit -m 'updated blocklist.txt'
+        git push origin master
         
