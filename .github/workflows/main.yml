@@ -32,6 +32,9 @@ jobs:
         git config --global user.name 'dthorsen-bot'
         git config --global credential.https://github.com.username dthorsen-bot
         git add blocklist.txt
-        git commit -m 'updated blocklist.txt'
-        git push origin master
-        
+        if git commit -m 'updated blocklist.txt'
+        then
+          git push origin master
+        else
+          echo "source blocklist was unchanged"
+        fi
